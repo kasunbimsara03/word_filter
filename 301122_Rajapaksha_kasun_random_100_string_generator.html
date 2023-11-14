@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Signika+Negative:wght@500&display=swap');
+        body {
+            background-color: rgba(181, 211, 223, 0.719);
+        }
+
+        h2 {
+            text-align: center;
+            font-family: 'Caveat', cursive;           
+            font-size: 40px;
+        }
+
+
+        tr,
+        td {
+            border: 2px solid rgb(27, 26, 26);
+            margin: auto;
+            margin-bottom: 10px;
+            width: auto;
+            padding: 10px;
+            border: none;
+        }
+        td{
+            font-family: 'Signika Negative', sans-serif;
+        }
+
+        table {
+            border: 2px dashed rgb(59, 57, 57);
+            margin: auto;
+            margin-bottom: 80px;
+            margin-top: 80px;
+            width: auto;
+            padding: 50px;
+            border-radius: 100px;
+            text-align: center;
+            /*border: none;*/
+        }
+
+        .container {
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        input {
+            position: relative;
+            display: inline-block;
+            font-size: 20px;
+            box-sizing: border-box;
+            transition: .5s;
+        }
+
+        input[type="text"] {
+            background: rgb(255, 255, 255);
+            width: 340px;
+            height: 50px;
+            border: none;
+            outline: none;
+            padding: 0 25px;
+            border-radius: 25px 0 0 25px;
+        }
+
+        input[type="button"] {
+            position: relative;
+            border-radius: 0 25px 25px 0;
+            width: 150px;
+            height: 50px;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            background: rgb(255, 225, 7);
+            color: rgb(0, 0, 0);
+        }
+
+
+        [placeholder]:focus::-webkit-input-placeholder {
+            transition: text-indent 1s 0.4s ease;
+            text-indent: -100%;
+            opacity: 1;
+            font-size: 20px;
+            font-family: 'Caveat', cursive;           
+            font-size: 20px;
+        }
+
+        td:hover {
+            background: rgb(181, 211, 223);
+            border-radius: 50px;
+        }
+
+
+        span.highlight {
+            background: rgb(253, 249, 2);
+        }
+    </style>
+</head>
+
+<body onload="generate()">
+
+    <h2>Random String Generator and filter</h2><br><br><br>
+    <div class="container">
+        <form onsubmit="return false;">
+            <input id="txt" type="text" placeholder="Parola o lettera che vuoi filtrare                                                                     👻" />
+            <input type="button" id="button" onclick="filtra_words()" value="Filtra" />
+        </form>
+    </div>
+
+    <br><br><br><br><br><br><br>
+
+
+    <script>
+        var array = [];
+        var array_filterd = [];
+
+        var table = document.createElement("table");
+
+        function generate() {
+            const letters = '.@èàaRSTbchijkABCDEFGHIJlmnopqrstuxyzKLMNOPQdefgUvwVWXYZ';
+            const charactersLength = letters.length;
+            let space_sentence_words = Math.floor(Math.random() * (6 - 5) + 5);
+            let length = Math.floor(Math.random() * (20 - 10)) + 10;
+            for (let i = 0; i < 100; i++) {
+                let result = "";
+                for (let i = 0; i < space_sentence_words; i++) {
+                    for (let i = 0; i < length; i++) {
+                        result += letters.charAt(Math.floor(Math.random() * charactersLength));
+                    }
+                    result += " ";
+                }
+                array.push(result);
+            }
+            //array.push(result);
+            // console.log(result);
+            //console.log(array);
+            //console.log(length);
+            //console.log("words "+space_sentence_words);
+
+
+            for (let i = 0; i < array.length; i++) {
+                const tr = document.createElement("tr");
+                const td = document.createElement("td");
+                const content = document.createTextNode(array[i]);
+                td.appendChild(content);
+                tr.appendChild(td);
+                table.appendChild(tr);
+            }
+            document.body.appendChild(table);
+
+        }
+        function filtra_words() {
+            array_filterd = [];
+            var filtra = document.getElementById("txt").value;
+            var count = 0;
+
+            table.innerHTML = "";
+            for (let i = 0; i < array.length; i++) {
+                const tr = document.createElement("tr");
+                const td = document.createElement("td");
+
+                if (array[i].includes(filtra) == true) {
+                    array_filterd.push(td);
+                    td.innerHTML = highlight(array[i], filtra);
+                    tr.appendChild(td);
+                    table.appendChild(tr);
+                }
+
+            }
+            document.body.appendChild(table);
+        }
+
+        function highlight(string, filtra) {
+            return string.split(filtra).join('<span class="highlight">' + filtra + '</span>');
+        }
+
+    </script>
+
+</body>
+
+</html>
